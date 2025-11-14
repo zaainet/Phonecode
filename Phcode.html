@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Android ဖုန်းများ၏ သော့ချက်များ - AIO Bossbaby</title>
+  <style>
+    :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --muted: #94a3b8;
+      --accent: #06b6d4;
+      --danger: #fb7185;
+      --success: #34d399;
+      --warning: #fbbf24;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Inter', 'Noto Sans Myanmar', sans-serif;
+      background: linear-gradient(180deg, #071422 0%, #081226 100%);
+      color: #e6eef6;
+      line-height: 1.5;
+    }
+    
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    h1 {
+      font-size: 24px;
+      margin: 0 0 10px 0;
+      color: var(--accent);
+    }
+    
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .search-container {
+      flex: 1;
+      min-width: 250px;
+      max-width: 400px;
+      position: relative;
+    }
+    
+    input.search {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.05);
+      color: inherit;
+      font-size: 14px;
+    }
+    
+    input.search:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
+    }
+    
+    .filter-container {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      background: var(--accent);
+      border: none;
+      color: #012;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      font-size: 14px;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(6, 182, 212, 0.3);
+    }
+    
+    button.alt {
+      background: #223142;
+      color: var(--accent);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    
+    button.danger {
+      background: var(--danger);
+      color: white;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+      border-radius: 12px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+    
+    .section-title strong {
+      font-size: 16px;
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .section-desc {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    
+    .pill {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    
+    .pill.general { background: rgba(6, 182, 212, 0.1); color: var(--accent); }
+    .pill.audio { background: rgba(52, 211, 153, 0.1); color: var(--success); }
+    .pill.gps { background: rgba(251, 191, 36, 0.1); color: var(--warning); }
+    .pill.engineer { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+    .pill.battery { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+    .pill.reset { background: rgba(251, 113, 133, 0.1); color: var(--danger); }
+    .pill.brand { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+    
+    .codes {
+      display: grid;
+      gap: 12px;
+    }
+    
+    .code-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      transition: background 0.2s ease;
+    }
+    
+    .code-row:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .code-left {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex: 1;
+    }
+    
+    .code {
+      font-family: 'SFMono-Regular', 'Menlo', 'Monaco', monospace;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      min-width: 140px;
+      text-align: center;
+    }
+    
+    .code-info {
+      flex: 1;
+    }
+    
+    .tag {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    
+    .small {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .actions button {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+    
+    .copy {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .dial {
+      background: var(--accent);
+    }
+    
+    .warn {
+      background: linear-gradient(90deg, rgba(251, 113, 133, 0.08), rgba(255, 200, 200, 0.03));
+      border-left: 4px solid var(--danger);
+      padding: 15px;
+      border-radius: 8px;
+      color: #ffdbe0;
+      margin-top: 25px;
+    }
+    
+    .warn strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #ffb3c1;
+    }
+    
+    footer {
+      margin-top: 30px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .brand-filters {
+      display: flex;
+      gap: 8px;
+      margin: 15px 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .brand-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s ease;
+    }
+    
+    .brand-btn.active {
+      background: var(--accent);
+      color: #012;
+      border-color: var(--accent);
+    }
+    
+    .no-results {
+      text-align: center;
+      padding: 30px;
+      color: var(--muted);
+      grid-column: 1 / -1;
+    }
+    
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .code-left {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      
+      .code {
+        min-width: 100%;
+      }
+      
+      .section-title {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .pill {
+        align-self: flex-start;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .search-container {
+        max-width: 100%;
+      }
+      
+      .filter-container {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Android ဖုန်းများ၏ သော့ချက်များ</h1>
+      <p class="subtitle">AIO Bossbay - ဖုန်း Hardware / Network / Sensor စမ်းသပ်ရန် Diagnostic dialer codes များ</p>
+      <p class="subtitle">သတိပြုရန် — အချို့ကုဒ်များသည် အလွန်အန္တရာယ်ရှိပြီး ဖုန်းကို factory reset သို့မဟုတ် modem setting ပြောင်းလဲနိုင်သည်။</p>
+    </header>
+
+    <div class="controls">
+      <div class="search-container">
+        <input id="search" class="search" placeholder="ကုဒ်နာမည် (ဥပမာ: GPS, Touch, IMEI, Samsung...) ရိုက်ထည့်ပါ" />
+      </div>
+      <div class="filter-container">
+        <button id="btnFilter" class="alt">ရှာဖွေမယ်</button>
+        <button id="btnShowAll">အားလုံးပြမယ်</button>
+        <button id="btnPrint">ပုံနှိပ်ရန်</button>
+      </div>
+    </div>
+
+    <div class="brand-filters">
+      <div class="brand-btn active" data-brand="all">အားလုံး</div>
+      <div class="brand-btn" data-brand="samsung">Samsung</div>
+      <div class="brand-btn" data-brand="xiaomi">Xiaomi</div>
+      <div class="brand-btn" data-brand="vivo">Vivo</div>
+      <div class="brand-btn" data-brand="infinix">Infinix</div>
+      <div class="brand-btn" data-brand="oppo">Oppo</div>
+      <div class="brand-btn" data-brand="realme">Realme</div>
+      <div class="brand-btn" data-brand="huawei">Huawei</div>
+    </div>
+
+    <div class="grid" id="sections">
+      <!-- General Section -->
+      <div class="card" data-category="general">
+        <div class="section-title">
+          <div>
+            <strong>📦 စုံစမ်းလေ့လာခြင်း (General)</strong>
+            <div class="section-desc">ဖုန်းအချက်အလက်, Battery, Usage, WiFi စမ်းသပ်ကုဒ်များ</div>
+          </div>
+          <div class="pill general">အထူးမှတ်ချက်</div>
+        </div>
+
+        <div class="codes">
+          <div class="code-row" data-keywords="phone info battery wifi usage statistics" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#4636#*#*</div>
+              <div class="code-info">
+                <div class="tag">Phone Info • Battery • WiFi • Usage</div>
+                <div class="small">ဖုန်းအချက်အလက်, Battery စတိတ်များကို ကြည့်ရန်</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="lcd screen display test" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#0*#*#*</div>
+              <div class="code-info">
+                <div class="tag">LCD Test</div>
+                <div class="small">Screen အစိတ်အပိုင်း/အရောင်စစ်</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="touch touchscreen test" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#2664#*#*</div>
+              <div class="code-info">
+                <div class="tag">Touchscreen Test</div>
+                <div class="small">စတစ်ခ်နဲ့ Touch အလုပ်လုပ်မှုစစ်</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="vibration brightness test" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#0842#*#*</div>
+              <div class="code-info">
+                <div class="tag">Vibration + Brightness</div>
+                <div class="small">Vibration နှင့် Brightness စမ်းသပ်</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="proximity sensor test" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#0588#*#*</div>
+              <div class="code-info">
+                <div class="tag">Proximity Sensor</div>
+                <div class="small">မျက်နှာနီးချင်း Proximity စမ်းသပ်</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audio Section -->
+      <div class="card" data-category="audio">
+        <div class="section-title">
+          <div>
+            <strong>🔊 အသံ၊ Bluetooth၊ WiFi စမ်းသပ်</strong>
+            <div class="section-desc">Speaker, Mic, Bluetooth, WiFi စမ်းဖို့</div>
+          </div>
+          <div class="pill audio">အထူး</div>
+        </div>
+
+        <div class="codes">
+          <div class="code-row" data-keywords="speaker audio tone test" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#0289#*#*</div>
+              <div class="code-info">
+                <div class="tag">Audio Test</div>
+                <div class="small">Speaker / Tone စမ်းသပ်</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="bluetooth test hardware" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#232331#*#*</div>
+              <div class="code-info">
+                <div class="tag">Bluetooth</div>
+                <div class="small">Bluetooth Hardware Test</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="wifi packet loop stress test" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#232339#*#*</div>
+              <div class="code-info">
+                <div class="tag">WiFi</div>
+                <div class="small">WiFi Packet / Stress Test</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="microphone test" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#0283#*#*</div>
+              <div class="code-info">
+                <div class="tag">Microphone Test</div>
+                <div class="small">မိုက်ကရိုဖုန်း စမ်းသပ်</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GPS Section -->
+      <div class="card" data-category="gps">
+        <div class="section-title">
+          <div>
+            <strong>🧭 GPS / Sensors</strong>
+            <div class="section-desc">GPS, Satellite Lock, Sensor စမ်းသပ်</div>
+          </div>
+          <div class="pill gps">အထူး</div>
+        </div>
+
+        <div class="codes">
+          <div class="code-row" data-keywords="gps quick test" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#1472365#*#*</div>
+              <div class="code-info">
+                <div class="tag">GPS Quick</div>
+                <div class="small">Quick GPS Test</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="gps full test satellite" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#1575#*#*</div>
+              <div class="code-info">
+                <div class="tag">GPS Full</div>
+                <div class="small">Full Satellite Check</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="gps test menu" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#6776#*#*</div>
+              <div class="code-info">
+                <div class="tag">GPS Test Menu</div>
+                <div class="small">GPS စမ်းသပ်မီနူး</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Engineer Section -->
+      <div class="card" data-category="engineer">
+        <div class="section-title">
+          <div>
+            <strong>🛠 Hardware / Engineer Mode</strong>
+            <div class="section-desc">MTK Engineer Mode, Full Hardware QC menu</div>
+          </div>
+          <div class="pill engineer">MTK tools</div>
+        </div>
+
+        <div class="codes">
+          <div class="code-row" data-keywords="mtk engineer mode infinix hot30i" data-brands="infinix,xiaomi,oppo,realme">
+            <div class="code-left">
+              <div class="code">*#*#3646633#*#*</div>
+              <div class="code-info">
+                <div class="tag">MTK Engineer Mode</div>
+                <div class="small">Modem, Network, Sensors, Audio tuning</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="hardware test xiaomi 6484" data-brands="xiaomi,redmi,poco">
+            <div class="code-left">
+              <div class="code">*#*#6484#*#*</div>
+              <div class="code-info">
+                <div class="tag">Hardware Test Menu</div>
+                <div class="small">Camera, Speaker, Mic, Sensor စစ်</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="qualcomm engineer mode" data-brands="samsung,oppo,realme">
+            <div class="code-left">
+              <div class="code">*#*#717717#*#*</div>
+              <div class="code-info">
+                <div class="tag">Qualcomm Engineer Mode</div>
+                <div class="small">Qualcomm chipset အတွက် engineer mode</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Battery Section -->
+      <div class="card" data-category="battery">
+        <div class="section-title">
+          <div>
+            <strong>🔋 Battery / Network / Field Test</strong>
+            <div class="section-desc">Battery voltage, Field Test Mode</div>
+          </div>
+          <div class="pill battery">Network</div>
+        </div>
+
+        <div class="codes">
+          <div class="code-row" data-keywords="battery voltage samsung" data-brands="samsung">
+            <div class="code-left">
+              <div class="code">*#*#0228#*#*</div>
+              <div class="code-info">
+                <div class="tag">Battery Status</div>
+                <div class="small">Voltage / Status (Samsung mostly)</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="field test network signal" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#7262626#*#*</div>
+              <div class="code-info">
+                <div class="tag">Field Test</div>
+                <div class="small">Network/Service field testing</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="service mode samsung 0011" data-brands="samsung">
+            <div class="code-left">
+              <div class="code">*#0011#</div>
+              <div class="code-info">
+                <div class="tag">Service Mode (Samsung)</div>
+                <div class="small">Modem / Service info</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="battery info test" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#3424#*#*</div>
+              <div class="code-info">
+                <div class="tag">Battery Info</div>
+                <div class="small">Battery အချက်အလက်များ</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reset Section -->
+      <div class="card" data-category="reset">
+        <div class="section-title">
+          <div>
+            <strong>🔐 IMEI / Reset / Danger Zone</strong>
+            <div class="section-desc">IMEI, Factory Reset, Full Format</div>
+          </div>
+          <div class="pill reset">Danger</div>
+        </div>
+
+        <div class="codes">
+          <div class="code-row" data-keywords="imei number" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#06#</div>
+              <div class="code-info">
+                <div class="tag">IMEI Display</div>
+                <div class="small">IMEI ကိုပြရန်</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="factory reset 7780" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#7780#*#*</div>
+              <div class="code-info">
+                <div class="tag">Factory Reset</div>
+                <div class="small">App + Data ဖျက်မည် — သတိပါ</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="full format 2767" data-brands="samsung">
+            <div class="code-left">
+              <div class="code">*2767*3855#</div>
+              <div class="code-info">
+                <div class="tag">Full Format (Extreme)</div>
+                <div class="small">ဖုန်းကို အားလုံးဖျက်ပေးမည် — မသုံးရန်</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy danger">Copy</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="reset network settings" data-brands="all">
+            <div class="code-left">
+              <div class="code">*#*#726633#*#*</div>
+              <div class="code-info">
+                <div class="tag">Reset Network</div>
+                <div class="small">Network settings ပြန်လည်သတ်မှတ်</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Brand Section -->
+      <div class="card" data-category="brand">
+        <div class="section-title">
+          <div>
+            <strong>🏷 Brand-specific Examples</strong>
+            <div class="section-desc">Vivo, Infinix(MTK), Samsung, Xiaomi</div>
+          </div>
+          <div class="pill brand">Model အလိုက် ကြာရွေး</div>
+        </div>
+
+        <div class="codes">
+          <div class="code-row" data-keywords="vivo 4838 558" data-brands="vivo">
+            <div class="code-left">
+              <div class="code">*#*#4838#*#*</div>
+              <div class="code-info">
+                <div class="tag">Vivo • Phone Info</div>
+                <div class="small">Phone/Network Info (Vivo)</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="vivo 558 qc test" data-brands="vivo">
+            <div class="code-left">
+              <div class="code">*#558#</div>
+              <div class="code-info">
+                <div class="tag">Vivo QC</div>
+                <div class="small">QC Test Mode (Model ပေါ်မူတည်)</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="infinix mtk 3646633" data-brands="infinix">
+            <div class="code-left">
+              <div class="code">*#*#3646633#*#*</div>
+              <div class="code-info">
+                <div class="tag">Infinix / MTK</div>
+                <div class="small">MTK Engineer Mode — Hot30i မှာ အသုံးများသည်</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="samsung 0star 0* test mode" data-brands="samsung">
+            <div class="code-left">
+              <div class="code">*#0*#</div>
+              <div class="code-info">
+                <div class="tag">Samsung Test Mode</div>
+                <div class="small">Full Test Mode (Samsung)</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="xiaomi 6484 hardware test" data-brands="xiaomi">
+            <div class="code-left">
+              <div class="code">*#*#6484#*#*</div>
+              <div class="code-info">
+                <div class="tag">Xiaomi / Hardware Test</div>
+                <div class="small">Full hardware QC menu</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="oppo realme 8088" data-brands="oppo,realme">
+            <div class="code-left">
+              <div class="code">*#8088#</div>
+              <div class="code-info">
+                <div class="tag">Oppo / Realme</div>
+                <div class="small">Engineer Mode (Oppo/Realme)</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+
+          <div class="code-row" data-keywords="huawei honor projectmenu" data-brands="huawei">
+            <div class="code-left">
+              <div class="code">*#*#2846579#*#*</div>
+              <div class="code-info">
+                <div class="tag">Huawei / Honor</div>
+                <div class="small">Project Menu (Huawei/Honor)</div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="copy">Copy</button>
+              <button class="dial">ဖုန်းဖွင့်</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn">
+      <strong>သတိပြုရန်:</strong>
+      <div>ဒီကုဒ်တွေထဲမှာ သင့်ဖုန်းကို  (factory reset / full format) နဲ့ modem setting ကိုထိန်းချုပ်တတ်တဲ့ အများကြီးရှိပါတယ်။ မသိဘဲ အမိန့်ပေးမနေဖို့, IMEI/Modem settings ကိုမပြောင်းရန် နှင့် အရေးကြီး data မရှိမဖြစ် backup ပြုလုပ်ထားရန် တိုက်တွန်းပါသည်။</div>
+    </div>
+
+    <footer>
+      ဒီစာမျက်နှာကို offline သိုလှောင်ပြီး အသုံးပြုနိုင်ပါတယ်။ အသေးစိတ် model ပေါ်မူတည် ပြဿနာရှိခဲ့ပါက သက်ဆိုင်ရာ device model နဲ့ chipset ကို ပြောပေးပါ။ Telegram: @aiobabyboss
+    </footer>
+  </div>
+
+  <script>
+    // Basic interactivity: search, copy, dial, print, brand filter
+    const searchEl = document.getElementById('search');
+    const btnFilter = document.getElementById('btnFilter');
+    const btnShowAll = document.getElementById('btnShowAll');
+    const btnPrint = document.getElementById('btnPrint');
+    const brandBtns = document.querySelectorAll('.brand-btn');
+    const codeRows = document.querySelectorAll('.code-row');
+    const cards = document.querySelectorAll('.card');
+
+    let currentBrand = 'all';
+    let currentSearch = '';
+
+    function normalize(s) {
+      return (s || '').toLowerCase().replace(/\s+/g, ' ');
+    }
+
+    function matches(el, q, brand) {
+      // Check if matches search query
+      if (q && !normalize(el.dataset.keywords || '').includes(normalize(q)) && 
+          !normalize(el.innerText || '').includes(normalize(q))) {
+        return false;
+      }
+      
+      // Check if matches brand filter
+      if (brand !== 'all') {
+        const brands = el.dataset.brands || '';
+        if (!brands.includes(brand)) {
+          return false;
+        }
+      }
+      
+      return true;
+    }
+
+    function filterResults() {
+      let hasVisibleResults = false;
+      
+      cards.forEach(card => {
+        let cardHasVisibleRows = false;
+        const rows = card.querySelectorAll('.code-row');
+        
+        rows.forEach(row => {
+          if (matches(row, currentSearch, currentBrand)) {
+            row.style.display = 'flex';
+            cardHasVisibleRows = true;
+            hasVisibleResults = true;
+          } else {
+            row.style.display = 'none';
+          }
+        });
+        
+        // Show/hide entire card based on whether it has visible rows
+        card.style.display = cardHasVisibleRows ? 'block' : 'none';
+      });
+      
+      // Show no results message if needed
+      let noResultsEl = document.querySelector('.no-results');
+      if (!hasVisibleResults) {
+        if (!noResultsEl) {
+          noResultsEl = document.createElement('div');
+          noResultsEl.className = 'no-results';
+          noResultsEl.innerHTML = `
+            <h3>ရလဒ်မတွေ့ပါ</h3>
+            <p>သင့်ရှာဖွေမှုနှင့် ကိုက်ညီသော ကုဒ်များ မတွေ့ပါ။ မတူညီသော စကားလုံးများဖြင့် ထပ်မံရှာဖွေကြည့်ပါ။</p>
+          `;
+          document.getElementById('sections').appendChild(noResultsEl);
+        }
+      } else if (noResultsEl) {
+        noResultsEl.remove();
+      }
+    }
+
+    // Event listeners
+    btnFilter.addEventListener('click', () => {
+      currentSearch = searchEl.value.trim();
+      filterResults();
+    });
+
+    btnShowAll.addEventListener('click', () => {
+      currentSearch = '';
+      searchEl.value = '';
+      currentBrand = 'all';
+      
+      // Reset brand buttons
+      brandBtns.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.brand === 'all') {
+          btn.classList.add('active');
+        }
+      });
+      
+      // Show all
+      cards.forEach(card => card.style.display = 'block');
+      codeRows.forEach(row => row.style.display = 'flex');
+      
+      // Remove no results message if exists
+      const noResultsEl = document.querySelector('.no-results');
+      if (noResultsEl) noResultsEl.remove();
+    });
+
+    btnPrint.addEventListener('click', () => window.print());
+
+    // Brand filter
+    brandBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        brandBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentBrand = btn.dataset.brand;
+        filterResults();
+      });
+    });
+
+    // Copy functionality
+    document.querySelectorAll('.copy').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const code = e.target.closest('.code-row').querySelector('.code').innerText;
+        navigator.clipboard.writeText(code).then(() => {
+          const originalText = btn.innerText;
+          btn.innerText = 'Copied!';
+          setTimeout(() => {
+            btn.innerText = originalText;
+          }, 1500);
+        }).catch(() => {
+          alert('Copy failed — allow clipboard permission.');
+        });
+      });
+    });
+
+    // Dial functionality
+    document.querySelectorAll('.dial').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const code = e.target.closest('.code-row').querySelector('.code').innerText;
+        // Try to open dialer. Some browsers block special chars — encode
+        const tel = 'tel:' + encodeURIComponent(code);
+        window.location.href = tel;
+      });
+    });
+
+    // Simple live search on Enter
+    searchEl.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        btnFilter.click();
+      }
+    });
+
+    // Initial setup
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add some animation to cards on load
+      cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+          card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, index * 100);
+      });
+    });
+  </script>
+</body>
+</html>
